@@ -1,8 +1,8 @@
-#Neovim config file(s)
+# Neovim config file(s)
 
-##Quick look through this neovim config features 
+## Quick look through this neovim config features 
 
-###Plugins
+### Plugins
 
 * Lsp support with completion and snippets for C, Java, Python, Lua and Haskell
 
@@ -18,7 +18,7 @@
 
 ---
 
-###Lua config
+### Lua config
 
 Simple Lua configuration to set up lsp and nvim-cmp
 
