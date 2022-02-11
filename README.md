@@ -1,6 +1,6 @@
 # Neovim config file(s)
 
-## Quick look through this neovim config features 
+## Contents of the neovim config
 
 ### Plugins
 
