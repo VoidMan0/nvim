@@ -18,6 +18,7 @@ set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
 set undodir=~/.config/nvim/undodir
+set autochdir
 set undofile
 set splitright
 autocmd TermOpen * setlocal nonumber norelativenumber
@@ -34,6 +35,7 @@ let g:ranger_map_keys = 0
 call plug#begin('~/.config/nvim/plugins')
 
 Plug 'neovim/nvim-lspconfig'
+Plug 'mfussenegger/nvim-dap'
 
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -52,6 +54,10 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
 
+Plug 'preservim/nerdtree' 
+Plug 'sheerun/vim-polyglot'
+Plug 'nvim-lua/plenary.nvim'
+
 Plug 'williamboman/nvim-lsp-installer'
 if has('nvim')
     Plug 'neovim/nvim-lspconfig'
@@ -67,7 +73,7 @@ nnoremap <C-f> :NERDTreeToggle<CR>
 nnoremap <C-t> :NERDTreeFind<CR>
 nnoremap <C-o> :copen 6<CR>
 nnoremap <C-c> :cclose<CR>
-noremap <F7> :AsyncRun gcc -O3 -Wall -Werror -g -fstack-protector -pedantic -ansi -std=c11 %<CR>:copen 6<CR>
+noremap <F7> :AsyncRun gcc -O3 -Wall -g -fstack-protector -pedantic -ansi -std=c11 % -lm<CR>:copen 6<CR>
 nnoremap <F11> :set spell<CR>
 nnoremap <silent> <A-k> :wincmd k<CR>
 nnoremap <silent> <A-j> :wincmd j<CR>
@@ -77,9 +83,9 @@ nnoremap <C-e> :vsplit<CR>:vertical resize -6<CR>
 
 inoremap <silent> <F11> <C-O>:set spell!<CR>
 
-map <M-BS> :let $VIM_DIR=expand('%:p:h')<CR>:tabnew<CR>:terminal<CR>Acd $VIM_DIR<CR>
+nnoremap <M-BS> :let $VIM_DIR=expand('%:p:h')<CR>:tabnew<CR>:terminal<CR>Acd $VIM_DIR<CR>
 
-tnoremap <Esc> <C-\><C-n><CR>
+tnoremap <C-q> <C-\><C-n><CR>
 
 " End of map-commands
 "//////////////////////////////////////////////////////////////////////////////
