@@ -36,7 +36,7 @@ Wanna master vim?, here's what to do.
 8. [Recommendations](https://www.vi-improved.org/recommendations/) and [Proverbs](https://www.vi-improved.org/vim-proverbs/) by [#vim](https://www.vi-improved.org/)
 9. [Vim Koans](https://blog.sanctum.geek.nz/vim-koans/)
 10. [Vim ways](https://vimways.org/2018) and [Vim galore](https://github.com/mhinz/vim-galore)
-11. Modern Vim by Drew Neil  and [Vimcasts](http://vimcasts.org)
+11. Modern Vim and Practical Vim by Drew Neil and [Vimcasts](http://vimcasts.org)
 12. Vim video [tutorials](http://derekwyatt.org/vim/tutorials/) by Derek Wyatt
 13. Greg Hurrell and the Primeagen channel.
 14. And most important of all: **always use vim**
