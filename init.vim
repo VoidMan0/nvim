@@ -3,7 +3,7 @@ syntax on
 set exrc
 set guicursor=
 set nu
-set nohlsearch
+set hls is
 set hidden
 set noerrorbells
 set smartindent
@@ -71,7 +71,7 @@ call plug#end()
 "
 nnoremap <C-f> :NERDTreeToggle<CR>
 nnoremap <C-t> :NERDTreeFind<CR>
-nnoremap <C-o> :copen 6<CR>
+nnoremap <C-g> :copen 6<CR>
 nnoremap <C-c> :cclose<CR>
 noremap <F7> :AsyncRun gcc -O3 -Wall -g -fstack-protector -pedantic -ansi -std=c11 % -lm<CR>:copen 6<CR>
 nnoremap <F11> :set spell<CR>
