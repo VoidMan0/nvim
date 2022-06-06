@@ -1,5 +1,6 @@
 " set-commandse
 syntax on
+syntax enable
 set exrc
 set guicursor=
 set nu
@@ -8,6 +9,7 @@ set hidden
 set noerrorbells
 set smartindent
 set smartcase
+set noequalalways
 set noswapfile
 set nowrap
 set incsearch
@@ -21,15 +23,17 @@ set undodir=~/.config/nvim/undodir
 set autochdir
 set undofile
 set splitright
+set clipboard+=unnamedplus
 autocmd TermOpen * setlocal nonumber norelativenumber
 
-set colorcolumn=80
+set colorcolumn=71
 highlight ColorColumn ctermbg=8
+let g:vimtex_view_method='zathura'
+let g:languagetool_jar='$HOME/Documents/Stuff/LanguageTool-5.2/languagetool-commandline.jar'
 
-let g:ranger_map_keys = 0
-
+let NERDTreeWinSize = 16
 " end of set-commands
-"//////////////////////////////////////////////////////////////////////////////
+"////////////////////////////////////////////////////////////////////r
 " Plug configuration
 
 call plug#begin('~/.config/nvim/plugins')
@@ -47,6 +51,7 @@ Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'rafamadriz/friendly-snippets'
 
+
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'tpope/vim-commentary'
 Plug 'windwp/nvim-autopairs'
@@ -54,40 +59,69 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
 
+
 Plug 'preservim/nerdtree' 
 Plug 'sheerun/vim-polyglot'
 Plug 'nvim-lua/plenary.nvim'
+
+Plug 'dpelle/vim-LanguageTool'
 
 Plug 'williamboman/nvim-lsp-installer'
 if has('nvim')
     Plug 'neovim/nvim-lspconfig'
 endif
 Plug 'skywind3000/asyncrun.vim'
+Plug 'akinsho/flutter-tools.nvim'
+Plug 'lervag/vimtex'
+
 call plug#end()
 
 " end of Plug configuration
-"//////////////////////////////////////////////////////////////////////////////
+"////////////////////////////////////////////////////////////////////////////////
 " map-commands
 "
-nnoremap <C-f> :NERDTreeToggle<CR>
-nnoremap <C-t> :NERDTreeFind<CR>
-nnoremap <C-c> :cclose<CR>
-noremap <F7> :AsyncRun gcc -O3 -Wall -g -fstack-protector -pedantic -ansi -std=c11 % -lm<CR>:copen 6<CR>
+function! GetBufferList()
+  redir =>buflist
+  silent! ls!
+  redir END
+  return buflist
+endfunction
+
+function! ToggleList(bufname)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      exec('cclose')
+      return
+    endif
+  endfor
+  let winnr = winnr()
+  exec('botright copen 10')
+  if winnr() != winnr
+    wincmd p
+  endif
+endfunction
+
+noremap <F1> :NeoTex <CR>
+noremap <F2> :set colorcolumn=71<CR>
 nnoremap <F11> :set spell<CR>
+nnoremap <F11> :set spell!<CR>
+
 nnoremap <silent> <A-k> :wincmd k<CR>
 nnoremap <silent> <A-j> :wincmd j<CR>
 nnoremap <silent> <A-h> :wincmd h<CR>
 nnoremap <silent> <A-l> :wincmd l<CR>
-nnoremap <C-e> :vsplit<CR>:vertical resize -6<CR>
 
-inoremap <silent> <F11> <C-O>:set spell!<CR>
-
-nnoremap <M-BS> :let $VIM_DIR=expand('%:p:h')<CR>:tabnew<CR>:terminal<CR>Acd $VIM_DIR<CR>
-
-tnoremap <C-q> <C-\><C-n><CR>
+nnoremap <silent> <C-f> :NERDTreeToggle<CR>
+nnoremap <silent> <C-o> :call ToggleList("Quickfix List")<CR>
+nnoremap <silent> <C-c> :call ToggleList("Quickfix List")<CR> :AsyncRun gcc -O2 -Wall -Wextra -g -fstack-protector -fwrapv -ftrapv -pedantic -ansi -std=c11 -pipe % -lm -lgmp -ldstruk -o %:r<CR>
+nnoremap <silent> <C-t> :let $VIM_DIR=expand('%:p:h')<CR>:topleft split<CR>:terminal<CR>:resize -12<CR>Acd $VIM_DIR<CR>clear<CR>
+nnoremap <silent> <C-e> :let $VIM_DIR=expand('%:p:h')<CR>:tabnew<CR>:terminal<CR>Acd $VIM_DIR<CR>clear<CR>
+tnoremap <silent> <C-t> <C-\><C-n> :q<CR>
+nnoremap <silent> <C-n> :set nu!<CR>
 
 " End of map-commands
-"//////////////////////////////////////////////////////////////////////////////
+"////////////////////////////////////////////////////////////////////////////////
 " Lua functions
 
 lua << EOF
@@ -98,6 +132,7 @@ require'lspconfig'.hls.setup{}
 require'lspconfig'.pylsp.setup{}
 require'lspconfig'.jdtls.setup{}
 require'lspconfig'.sumneko_lua.setup{}
+require("flutter-tools").setup{} -- use defaults
 
 require 'nvim-treesitter.configs'.setup{
     highlight={
@@ -116,6 +151,9 @@ require 'nvim-treesitter.configs'.setup{
         "lua"
     }
 }
+
+------------------------------------------------------------------------------
+--flutter-tools
 
 ------------------------------------------------------------------------------
 
