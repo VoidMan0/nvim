@@ -30,6 +30,7 @@ set colorcolumn=71
 highlight ColorColumn ctermbg=8
 let g:vimtex_view_method='zathura'
 let g:languagetool_jar='$HOME/Documents/Stuff/LanguageTool-5.2/languagetool-commandline.jar'
+let g:asyncrun_open = 5
 
 let NERDTreeWinSize = 16
 " end of set-commands
@@ -96,7 +97,7 @@ function! ToggleList(bufname)
     endif
   endfor
   let winnr = winnr()
-  exec('botright copen 10')
+  exec('botright copen 5')
   if winnr() != winnr
     wincmd p
   endif
@@ -114,10 +115,9 @@ nnoremap <silent> <A-l> :wincmd l<CR>
 
 nnoremap <silent> <C-f> :NERDTreeToggle<CR>
 nnoremap <silent> <C-o> :call ToggleList("Quickfix List")<CR>
-nnoremap <silent> <C-c> :call ToggleList("Quickfix List")<CR> :AsyncRun gcc -O2 -Wall -Wextra -g -fstack-protector -fwrapv -ftrapv -pedantic -ansi -std=c11 -pipe % -lm -lgmp -ldstruk -o %:r<CR>
-nnoremap <silent> <C-t> :let $VIM_DIR=expand('%:p:h')<CR>:topleft split<CR>:terminal<CR>:resize -12<CR>Acd $VIM_DIR<CR>clear<CR>
-nnoremap <silent> <C-e> :let $VIM_DIR=expand('%:p:h')<CR>:tabnew<CR>:terminal<CR>Acd $VIM_DIR<CR>clear<CR>
-tnoremap <silent> <C-t> <C-\><C-n> :q<CR>
+nnoremap <silent> <C-c> :AsyncRun gcc -O2 -Wall -Wextra -g -fstack-protector -fwrapv -ftrapv -pedantic -ansi -std=c11 -pipe % -lm -lgmp -ldstruk -o %:r<CR>
+nnoremap <silent> <C-t> :let $VIM_DIR=expand('%:p:h')<CR>:tabnew<CR>:terminal<CR>Acd $VIM_DIR<CR>clear<CR>
+tnoremap <silent> <C-t> <C-\><C-n><CR>
 nnoremap <silent> <C-n> :set nu!<CR>
 
 " End of map-commands
